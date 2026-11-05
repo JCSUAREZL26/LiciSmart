@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LiciSmart | Gestión inteligente de contratación</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <!-- INICIO DE SESIÓN -->
+  <section id="loginView" class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <img src="imagenes/logo-licismart.png" alt="Logo LiciSmart"
+             onerror="this.style.display='none'">
+        <h1>LiciSmart</h1>
+        <p>Sistema inteligente de análisis y gestión de contratación estatal</p>
+      </div>
+
+      <h2>Iniciar sesión</h2>
+
+      <form id="loginForm">
+        <label for="loginEmail">Correo electrónico</label>
+        <input type="email" id="loginEmail" placeholder="Ingrese su correo"
+               required>
+
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword"
+               placeholder="Ingrese su contraseña" required>
+
+        <p id="loginMessage" class="form-message"></p>
+
+        <button type="submit" class="btn-primary full-width">
+          Ingresar al sistema
+        </button>
+      </form>
+
+      <div class="demo-access">
+        <strong>Acceso de demostración</strong>
+        <p>Correo: prueba@licismart.com</p>
+        <p>Contraseña: 123456</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- APLICACIÓN PRINCIPAL -->
+  <div id="appView" class="app-layout hidden">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="imagenes/logo-licismart.png" alt="Logo"
+             onerror="this.style.display='none'">
+        <div>
+          <h2>LiciSmart</h2>
+          <small>Gestión de contratación</small>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <p class="nav-heading">MENÚ PRINCIPAL</p>
+
+        <button class="nav-link active" data-view="dashboard">
+          <span>▦</span> Panel principal
+        </button>
+        <button class="nav-link" data-view="opportunities">
+          <span>◫</span> Oportunidades
+        </button>
+        <button class="nav-link" data-view="documents">
+          <span>▤</span> Gestión documental
+        </button>
+        <button class="nav-link" data-view="analysis">
+          <span>☑</span> Análisis de requisitos
+        </button>
+        <button class="nav-link" data-view="alerts">
+          <span>♧</span> Alertas
+        </button>
+        <button class="nav-link" data-view="bidders">
+          <span>♙</span> Oferentes
+        </button>
+
+        <p class="nav-heading">GESTIÓN Y CONSULTAS</p>
+
+        <button class="nav-link" data-view="reports">
+          <span>▥</span> Reportes
+        </button>
+        <button class="nav-link" data-view="history">
+          <span>◷</span> Historial
+        </button>
+        <button class="nav-link" data-view="profile">
+          <span>⚙</span> Perfil de empresa
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p>Plataforma de demostración</p>
+        <button id="logoutButton" class="logout-button">
+          Cerrar sesión
+        </button>
+      </div>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+      <header class="topbar">
+        <div>
+          <h1 id="pageTitle">Panel principal</h1>
+          <p>Bienvenido a LiciSmart</p>
+        </div>
+        <div class="topbar-date">
+          <span>Fecha de consulta</span>
+          <strong id="currentDate"></strong>
+        </div>
+      </header>
+
+      <div class="content-area">
+
+        <!-- PANEL PRINCIPAL -->
+        <section id="dashboardView" class="content-view">
+          <div class="welcome-banner">
+            <div>
+              <span class="eyebrow">PLATAFORMA DE GESTIÓN</span>
+              <h2>Administra tus oportunidades de contratación</h2>
+              <p>Organiza procesos, documentos y requisitos desde un solo lugar.</p>
+            </div>
+            <button class="btn-white" data-go="opportunities">
+              Consultar oportunidades
+            </button>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <span>Oportunidades registradas</span>
+              <strong id="statOpportunities">0</strong>
+              <small>Procesos disponibles en la demostración</small>
+            </article>
+            <article class="stat-card">
+              <span>Procesos seleccionados</span>
+              <strong id="statSelected">0</strong>
+              <small>Procesos en seguimiento</small>
+            </article>
+            <article class="stat-card">
+              <span>Documentos registrados</span>
+              <strong id="statDocuments">0</strong>
+              <small>Documentación organizada</small>
+            </article>
+            <article class="stat-card">
+              <span>Alertas pendientes</span>
+              <strong id="statAlerts">0</strong>
+              <small>Recordatorios de gestión</small>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Oportunidades recientes</h3>
+                  <p>Procesos registrados en el sistema</p>
+                </div>
+                <button class="btn-text" data-go="opportunities">
+                  Ver todas
+                </button>
+              </div>
+              <div id="recentOpportunities"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Alertas y recordatorios</h3>
+                  <p>Información para tener en cuenta</p>
+                </div>
+                <button class="btn-text" data-go="alerts">
+                  Ver alertas
+                </button>
+              </div>
+              <div id="dashboardAlerts"></div>
+            </div>
+          </div>
+
+          <div class="notice">
+            <strong>Importante:</strong>
+            Los procesos que aparecen en esta versión son demostrativos.
+            Verifica siempre la información en SECOP y en las fuentes oficiales.
+          </div>
+        </section>
+
+        <!-- OPORTUNIDADES -->
+        <section id="opportunitiesView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Oportunidades de contratación</h2>
+            <p>Consulta y organiza los procesos de interés para la empresa.</p>
+          </div>
+
+          <div class="panel">
+            <div class="filters-grid">
+              <div class="field">
+                <label for="opportunitySearch">Buscar oportunidad</label>
+                <input type="search" id="opportunitySearch"
+                       placeholder="Buscar por entidad, objeto o código">
+              </div>
+              <div class="field">
+                <label for="modalityFilter">Modalidad</label>
+                <select id="modalityFilter">
+                  <option value="">Todas las modalidades</option>
+                  <option>Selección abreviada</option>
+                  <option>Licitación pública</option>
+                  <option>Mínima cuantía</option>
+                  <option>Concurso de méritos</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="statusFilter">Estado</label>
+                <select id="statusFilter">
+                  <option value="">Todos los estados</option>
+                  <option>Abierto</option>
+                  <option>En seguimiento</option>
+                  <option>Cerrado</option>
+                </select>
+              </div>
+            </div>
+
+            <p id="opportunityCount" class="results-count"></p>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Proceso / Objeto</th>
+                    <th>Entidad</th>
+                    <th>Modalidad</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="opportunitiesTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- DETALLE -->
+        <section id="detailView" class="content-view hidden">
+          <div class="section-intro">
+            <button class="btn-text" data-go="opportunities">
+              ← Volver a oportunidades
+            </button>
+            <h2>Detalle del proceso</h2>
+            <p>Información general de la oportunidad seleccionada.</p>
+          </div>
+          <div id="opportunityDetail"></div>
+        </section>
+
+        <!-- DOCUMENTOS -->
+        <section id="documentsView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Gestión documental</h2>
+            <p>Registra y organiza los documentos asociados a cada proceso.</p>
+          </div>
+
+          <div class="panel">
+            <h3>Registrar documentos</h3>
+            <p class="panel-description">
+              Selecciona el proceso y carga archivos PDF, DOC o DOCX.
+            </p>
+
+            <div class="field">
+              <label for="documentProcess">Proceso de contratación</label>
+              <select id="documentProcess">
+                <option value="">Selecciona un proceso</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="documentFiles">Seleccionar archivos</label>
+              <input type="file" id="documentFiles" multiple
+                     accept=".pdf,.doc,.docx">
+              <small>Formatos permitidos: PDF, DOC y DOCX. Máximo 10 MB por archivo.</small>
+            </div>
+
+            <button id="uploadButton" class="btn-primary">
+              Registrar documentos
+            </button>
+          </div>
+
+          <div class="panel">
+            <h3>Documentos registrados</h3>
+            <div id="documentsList"></div>
+          </div>
+        </section>
+
+        <!-- ANÁLISIS -->
+        <section id="analysisView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Análisis de requisitos</h2>
+            <p>Organiza la revisión de los requisitos de cada proceso.</p>
+          </div>
+
+          <div class="panel">
+            <div class="field">
+              <label for="analysisProcess">Seleccionar proceso</label>
+              <select id="analysisProcess">
+                <option value="">Selecciona un proceso</option>
+              </select>
+            </div>
+
+            <div class="progress-heading">
+              <strong>Avance de revisión</strong>
+              <strong id="progressText">0%</strong>
+            </div>
+            <div class="progress-track">
+              <div id="progressBar" class="progress-bar"
+                   role="progressbar" aria-valuenow="0"
+                   aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            <div id="requirementsContainer"></div>
+
+            <button id="saveAnalysisButton" class="btn-primary">
+              Guardar análisis
+            </button>
+          </div>
+        </section>
+
+        <!-- ALERTAS -->
+        <section id="alertsView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Centro de alertas</h2>
+            <p>Consulta los recordatorios y avisos relacionados con la gestión.</p>
+          </div>
+          <div class="panel">
+            <div id="alertsList"></div>
+          </div>
+        </section>
+
+        <!-- OFERENTES -->
+        <section id="biddersView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Gestión de oferentes</h2>
+            <p>Registra y consulta información básica de los oferentes.</p>
+          </div>
+
+          <div class="panel">
+            <h3>Registrar oferente</h3>
+            <form id="bidderForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="bidderName">Nombre o razón social *</label>
+                  <input id="bidderName" required>
+                </div>
+                <div class="field">
+                  <label for="bidderNit">NIT *</label>
+                  <input id="bidderNit" required>
+                </div>
+                <div class="field">
+                  <label for="bidderEmail">Correo electrónico *</label>
+                  <input type="email" id="bidderEmail" required>
+                </div>
+                <div class="field">
+                  <label for="bidderPhone">Teléfono</label>
+                  <input id="bidderPhone">
+                </div>
+              </div>
+              <button type="submit" class="btn-primary">
+                Guardar oferente
+              </button>
+            </form>
+          </div>
+
+          <div class="panel">
+            <h3>Oferentes registrados</h3>
+            <div id="biddersList"></div>
+          </div>
+        </section>
+
+        <!-- REPORTES -->
+        <section id="reportsView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Reportes de gestión</h2>
+            <p>Consulta los indicadores generales de LiciSmart.</p>
+          </div>
+
+          <div class="stats-grid report-stats">
+            <article class="stat-card">
+              <span>Procesos</span>
+              <strong id="reportProcesses">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Documentos</span>
+              <strong id="reportDocuments">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Oferentes</span>
+              <strong id="reportBidders">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Alertas pendientes</span>
+              <strong id="reportAlerts">0</strong>
+            </article>
+          </div>
+
+          <div class="panel">
+            <div class="panel-heading">
+              <h3>Resumen de gestión</h3>
+              <button id="printReportButton" class="btn-primary">
+                Imprimir / Guardar PDF
+              </button>
+            </div>
+            <div id="reportSummary"></div>
+          </div>
+        </section>
+
+        <!-- HISTORIAL -->
+        <section id="historyView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Historial de actividad</h2>
+            <p>Consulta las principales acciones realizadas en el sistema.</p>
+          </div>
+          <div class="panel">
+            <div id="historyList"></div>
+          </div>
+        </section>
+
+        <!-- PERFIL -->
+        <section id="profileView" class="content-view hidden">
+          <div class="section-intro">
+            <h2>Perfil de empresa</h2>
+            <p>Administra los datos básicos de la empresa oferente.</p>
+          </div>
+
+          <div class="panel">
+            <form id="profileForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="companyName">Razón social</label>
+                  <input id="companyName">
+                </div>
+                <div class="field">
+                  <label for="companyNit">NIT</label>
+                  <input id="companyNit">
+                </div>
+                <div class="field">
+                  <label for="companyEmail">Correo electrónico</label>
+                  <input type="email" id="companyEmail">
+                </div>
+                <div class="field">
+                  <label for="companyPhone">Teléfono</label>
+                  <input id="companyPhone">
+                </div>
+              </div>
+              <div class="field">
+                <label for="companyDescription">Descripción de la empresa</label>
+                <textarea id="companyDescription" rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn-primary">
+                Guardar perfil
+              </button>
+            </form>
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="main-footer">
+        LiciSmart · Sistema demostrativo de análisis y gestión de contratación estatal
+      </footer>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
